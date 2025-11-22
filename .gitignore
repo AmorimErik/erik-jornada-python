@@ -1,0 +1,33 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+.venv/
+*/venv/
+*/.venv/
+
+# Environments
+*.env
+.env.*
+*/env
+
+# IDEs
+.vscode/
+.idea/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+*~
+Thumbs.db
+
+# Pastas diversas
+*/assets
