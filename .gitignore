@@ -32,3 +32,6 @@ Thumbs.db
 # Pastas diversas
 */assets
 */arquivos_salvos
+
+# Arquivos ignorados
+*.mp3
