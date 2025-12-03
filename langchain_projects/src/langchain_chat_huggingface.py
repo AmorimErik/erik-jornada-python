@@ -1,5 +1,5 @@
 import streamlit as st
-from modelo_langchain_hugginface import modelo, mensagens
+from langchain_modelo_hugginface import modelo, mensagens
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 def abrir_chat(prompt, modelo, mensagens):

@@ -1,5 +1,5 @@
 import streamlit as st
-from modelo_langchain_openai import modelo, mensagens
+from langchain_modelo_openai import modelo, mensagens
 from langchain_core.messages import HumanMessage, SystemMessage
 
 def abrir_chat(prompt, modelo, mensagens):
