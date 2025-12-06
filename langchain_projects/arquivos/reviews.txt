@@ -1,0 +1,5 @@
+1. Das 4 reviews, 3 são positivas e 1 é negativa. Isso significa que 75% das reviews são positivas.
+
+2. 75% das reviews dizem que vale a pena comprar o produto.
+
+3. O ponto positivo que mais aparece é "câmera", "fotos" e "conectividade". O ponto negativo que mais aparece é "mais compacta".

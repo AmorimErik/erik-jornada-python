@@ -1,6 +1,6 @@
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
-from langchain_core.output_parsers import JsonOutputParser
+from langchain_core.output_parsers import JsonOutputParser, StrOutputParser
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 from pathlib import Path
@@ -57,6 +57,27 @@ reviews = [
     "A apresentação da câmera é muito boa, mas preciso de uma câmera menor e mais compacta.",
 ]
 
-prompt = template.invoke({"reviews": reviews})
-resposta = parser.invoke(modelo.invoke(prompt))
+chain = template | modelo | parser
+
+template_analise = PromptTemplate.from_template(
+    """
+    Analise a seguinte lista de reviews de um produto e me diga:
+    1. Quantas reviews são positivas e quantas são negativas (e o percentual de reviews positivas do total);
+    2. Qual percentual de reviews diz que vale a pena comprar o produto;
+    3. O ponto positivo que mais aparece e o ponto negativo que mais aparece.
+    A lista de reviews é essa: {avaliacoes}    
+"""
+)
+
+parser_texto = StrOutputParser()
+
+chain_analise = template_analise | modelo | parser_texto
+
+chain_global = chain | chain_analise
+
+resposta = chain_global.invoke({"reviews": reviews})
+
+with open(ROOT_PATH / "arquivos/reviews.txt", "a", encoding="utf-8") as arquivo:
+        arquivo.write(f"{resposta}\n")
+
 print(resposta)
