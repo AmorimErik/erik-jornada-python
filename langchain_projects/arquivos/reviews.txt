@@ -3,3 +3,14 @@
 2. 75% das reviews dizem que vale a pena comprar o produto.
 
 3. O ponto positivo que mais aparece é "câmera", "fotos" e "conectividade". O ponto negativo que mais aparece é "mais compacta".
+Vamos às análises:
+
+1. Das 4 reviews analisadas, 3 são positivas e 1 é negativa. Isso representa 75% de reviews positivas e 25% de reviews negativas.
+
+2. 75% das reviews dizem que vale a pena comprar o produto.
+
+3. O ponto positivo que mais aparece nas reviews é a "Facilidade de aprender", mencionada em 2 reviews. O ponto negativo que mais aparece é o "Tamanho da câmera", mencionado em 1 review.
+{'review_positivo': True, 'vale_a_pena': True, 'pontos_positivos': ['Boa qualidade de imagem', 'Custo-benefício', 'Conectividade'], 'pontos_negativos': []}
+{'review_positivo': True, 'vale_a_pena': True, 'pontos_positivos': ['Produto completo', 'Brinde surpresa', 'Procedência verificada'], 'pontos_negativos': []}
+{'review_positivo': True, 'vale_a_pena': True, 'pontos_positivos': ['Boa para iniciantes', 'Fácil de usar', 'Câmera semi profissional'], 'pontos_negativos': []}
+{'review_positivo': False, 'vale_a_pena': False, 'pontos_positivos': ['Boa apresentação'], 'pontos_negativos': ['Tamanho grande']}

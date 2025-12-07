@@ -1,6 +1,7 @@
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import JsonOutputParser, StrOutputParser
+from langchain_core.runnables import RunnableLambda
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 from pathlib import Path
@@ -69,15 +70,22 @@ template_analise = PromptTemplate.from_template(
 """
 )
 
+
+def salvar_texto(dic_avaliacoes):
+    with open(ROOT_PATH / "arquivos/reviews.txt", "a", encoding="utf-8") as arquivo:
+        for avaliacao in dic_avaliacoes["avaliacoes"]:
+            arquivo.write(f"{avaliacao}\n")
+    return dic_avaliacoes
+
+
+runnable = RunnableLambda(salvar_texto)
+
 parser_texto = StrOutputParser()
 
 chain_analise = template_analise | modelo | parser_texto
 
-chain_global = chain | chain_analise
+chain_global = chain | runnable | chain_analise
 
 resposta = chain_global.invoke({"reviews": reviews})
-
-with open(ROOT_PATH / "arquivos/reviews.txt", "a", encoding="utf-8") as arquivo:
-        arquivo.write(f"{resposta}\n")
 
 print(resposta)
