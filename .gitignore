@@ -33,6 +33,7 @@ Thumbs.db
 */assets
 */arquivos_salvos
 */database
+*/data
 
 # Arquivos ignorados
 *.mp3

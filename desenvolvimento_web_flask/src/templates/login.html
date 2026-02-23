@@ -1,4 +1,4 @@
-{% extends " base.html" %}
+{% extends "base.html" %}
 
 {% block body %}
     <div class="container">
@@ -26,7 +26,7 @@
                         <div class="form-group">
                             {{form_login.senha.label(class="form-control-label")}}
                             {% if form_login.senha.errors %}
-                                {{form_login.senha.(class="form-control is-invalid")}}
+                                {{form_login.senha(class="form-control is-invalid")}}
                                 <div class="invalid-feedback">
                                     {% for erro in form_login.senha.errors %}
                                         {{erro}}
