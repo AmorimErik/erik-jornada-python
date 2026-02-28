@@ -34,6 +34,10 @@ Thumbs.db
 */arquivos_salvos
 */database
 */data
+*/fotos_perfil
 
 # Arquivos ignorados
 *.mp3
+*.jpg
+*.jpeg
+*.png
