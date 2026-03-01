@@ -44,6 +44,16 @@
                                 {% endfor %}
                             {% endif %}
                         </div>
+                        <hr>
+                        <p><h4>Cursos</h4></p>
+                        {% for campo in form %}
+                            {% if "curso_" in campo.name %}
+                                <div class="form-group">
+                                    {{campo(class="form-check-input")}}
+                                    {{campo.label(class="form-check-label")}}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </fieldset>
                     {{form.botao_submit_editar_perfil(class="btn btn-primary mt-2")}}
                 </form>

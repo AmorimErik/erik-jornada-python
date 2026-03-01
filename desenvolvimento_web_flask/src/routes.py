@@ -1,4 +1,5 @@
 from flask import Blueprint, flash, redirect, request, render_template, url_for
+from wtforms import BooleanField
 from src.forms import FormCriarConta, FormLogin, FormEditarPerfil
 from src.models import Usuario
 from src import database, bcrypt
@@ -112,6 +113,15 @@ def salvar_imagem(imagem):
     return nome_arquivo_imagem
 
 
+def atualizar_cursos(form):
+    lista_cursos = []
+    for campo in form:
+        if "curso_" in campo.name:
+            if campo.data:
+                lista_cursos.append(campo.label.text)
+    return ";".join(lista_cursos), len(lista_cursos)
+
+
 @main_bp.route("/perfil/editar", methods=["GET", "POST"])
 @login_required
 def editar_perfil():
@@ -122,12 +132,17 @@ def editar_perfil():
         if form.foto_perfil.data:
             nome_imagem = salvar_imagem(form.foto_perfil.data)
             current_user.foto_perfil = nome_imagem
+        current_user.cursos, current_user.total_cursos = atualizar_cursos(form)
         database.session.commit()
         flash(f"Perfil atualizado com sucesso", "alert-success")
         return redirect(url_for("main.perfil"))
     elif request.method == "GET":
         form.email.data = current_user.email
         form.username.data = current_user.username
+        for campo in form:
+            for curso in current_user.cursos.split(";"):
+                if curso in str(campo.label):
+                    campo.data = BooleanField(default="checked")
 
     foto_perfil = url_for("static", filename=f"fotos_perfil/{current_user.foto_perfil}")
     return render_template("editarperfil.html", foto_perfil=foto_perfil, form=form)
