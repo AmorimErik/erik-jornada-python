@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, redirect, request, render_template, url_for
 from wtforms import BooleanField
-from src.forms import FormCriarConta, FormLogin, FormEditarPerfil
-from src.models import Usuario
+from src.forms import FormCriarConta, FormLogin, FormEditarPerfil, FormCriarPost
+from src.models import Post, Usuario
 from src import database, bcrypt
 from flask_login import current_user, login_user, login_required, logout_user
 from PIL import Image
@@ -10,12 +10,12 @@ import secrets
 
 
 main_bp = Blueprint("main", __name__)
-lista_usuarios = []
 
 
 @main_bp.route("/")
 def home():
-    return render_template("home.html")
+    posts = Post.query.all()
+    return render_template("home.html", posts=posts)
 
 
 @main_bp.route("/contato")
@@ -26,6 +26,7 @@ def contato():
 @main_bp.route("/usuarios")
 @login_required
 def usuarios():
+    lista_usuarios = Usuario.query.all()
     return render_template("usuarios.html", lista_usuarios=lista_usuarios)
 
 
@@ -88,10 +89,17 @@ def perfil():
     return render_template("perfil.html", foto_perfil=foto_perfil)
 
 
-@main_bp.route("/post/criar")
+@main_bp.route("/post/criar", methods=["GET", "POST"])
 @login_required
 def criar_post():
-    return render_template("criarpost.html")
+    form = FormCriarPost()
+    if form.validate_on_submit():
+        post = Post(titulo=form.titulo.data, corpo=form.corpo.data, autor=current_user)
+        database.session.add(post)
+        database.session.commit()
+        flash("Post criado com sucesso", "alert-success")
+        return redirect(url_for("main.home"))
+    return render_template("criarpost.html", form=form)
 
 
 def salvar_imagem(imagem):

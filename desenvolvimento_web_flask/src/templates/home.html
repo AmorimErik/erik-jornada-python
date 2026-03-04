@@ -3,9 +3,22 @@
 {% block body %}
 
     <div class="container">
-        <h1>Primeiro site em Python no ar!!! Aprendendo muito!</h1>
-        <h3>Desenvolvendo legal!</h3>
-        <p>Hello World!</p>
+        <h1 style="color: blue;">Comunidade Python</h1>
+        <h3>Alunos, experts e galera do Python</h3>
+        <hr>
+        {% for post in posts %}
+            <div class="row border mt-4 p-3 meupost">
+                <div class="col col-3">
+                    <div class="image pe-2">
+                        <img src="{{url_for('static', filename='fotos_perfil/{}'.format(post.autor.foto_perfil))}}" class="rounded" width="200">
+                        <strong>{{post.autor.username}}</strong>
+                    </div>
+                </div>
+                <div class="col col-9">
+                    <h3>{{post.titulo}}</h3>
+                    <p>{{post.corpo}}</p>
+                </div>
+        {% endfor %}
     </div>
     
 {% endblock %}

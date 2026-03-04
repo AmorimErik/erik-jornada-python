@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField
-from wtforms import BooleanField, PasswordField, StringField, SubmitField
+from wtforms import BooleanField, PasswordField, StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from src.models import Usuario
 from flask_login import current_user
@@ -50,3 +50,10 @@ class FormEditarPerfil(FlaskForm):
                 raise ValidationError(
                     "Já existe um usuário com este e-mail. Cadastre outro e-mail."
                 )
+
+
+class FormCriarPost(FlaskForm):
+    titulo = StringField("Título do Post", validators=[DataRequired(), Length(2, 140)])
+    corpo = TextAreaField("Escreva seu Post aqui.", validators=[DataRequired()])
+    botao_submit = SubmitField("Criar Post")
+    
