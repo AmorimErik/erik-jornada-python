@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, redirect, request, render_template, url_for
+from flask import abort, Blueprint, flash, redirect, request, render_template, url_for
 from wtforms import BooleanField
 from src.forms import FormCriarConta, FormLogin, FormEditarPerfil, FormCriarPost
 from src.models import Post, Usuario
@@ -14,7 +14,7 @@ main_bp = Blueprint("main", __name__)
 
 @main_bp.route("/")
 def home():
-    posts = Post.query.all()
+    posts = Post.query.order_by(Post.id.desc())
     return render_template("home.html", posts=posts)
 
 
@@ -154,3 +154,35 @@ def editar_perfil():
 
     foto_perfil = url_for("static", filename=f"fotos_perfil/{current_user.foto_perfil}")
     return render_template("editarperfil.html", foto_perfil=foto_perfil, form=form)
+
+
+@main_bp.route("/post/<post_id>", methods=["GET", "POST"])
+@login_required
+def exibir_post(post_id):
+    post = Post.query.get(post_id)
+    if current_user == post.autor:
+        form = FormCriarPost()
+        if request.method == "GET":
+            form.titulo.data = post.titulo
+            form.corpo.data = post.corpo
+        elif form.validate_on_submit():
+            post.titulo = form.titulo.data
+            post.corpo = form.corpo.data
+            database.session.commit()
+            flash("Post atualizado com sucesso!", "alert-success")
+    else:
+        form = None
+    return render_template("post.html", post=post, form=form)
+
+
+@main_bp.route("/post/<post_id>/excluir", methods=["GET", "POST"])
+@login_required
+def excluir_post(post_id):
+    post = Post.query.get(post_id)
+    if current_user.id == post.id_usuario:
+        database.session.delete(post)
+        database.session.commit()
+        flash("Post excluído com sucesso.", "alert-danger")
+        return redirect(url_for("main.home"))
+    else:
+        abort(403)

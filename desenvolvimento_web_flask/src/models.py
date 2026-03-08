@@ -18,6 +18,8 @@ class Usuario(database.Model, UserMixin):
     cursos = database.Column(database.String, nullable=False, default="Não Informado")
     total_cursos = database.Column(database.Integer, default=0)
 
+    def contar_post(self):
+        return len(self.posts)
 
 class Post(database.Model):
     id = database.Column(database.Integer, primary_key=True)
